@@ -122,7 +122,7 @@ srateeage <- sratee %>%
 
 
 Suicides by age group
-```{r}
+```{r warning = FALSE}
 srateeage %>%
   ggplot(aes(x= age, y = suicides_no, fill = age))+
   geom_bar(stat = "identity")

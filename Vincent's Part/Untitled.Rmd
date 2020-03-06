@@ -1,0 +1,41 @@
+---
+title: "Presentation-Making Practice"
+author: "Vincent Castillo"
+output:
+  ioslides_presentation:
+    widescreen: TRUE
+  
+---
+
+## Calling libraries
+```{r echo=TRUE, message=FALSE}
+library(tidyverse)
+library(naniar)
+library(shiny)
+library(shinydashboard)
+library(shinythemes)
+```
+
+## Calling data
+```{r}
+srate <- readr::read_csv("master.csv")
+```
+
+## Tidying up data
+```{r}
+sratee <- srate %>%
+  rename(gdpyr = `gdp_for_year ($)`, gdpcap = `gdp_per_capita ($)`, suicper100k = `suicides/100k pop`)
+```
+
+## Create srategen
+```{r}
+srateegen <- sratee %>%
+  select(generation, suicides_no)
+```
+
+## Practice
+```{r}
+srateegen %>%
+  ggplot(aes(x = generation, y = suicides_no, fill = generation))+
+  geom_bar(stat = "identity")
+```
