@@ -1,0 +1,93 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(naniar)
+library(skimr)
+library(tidyverse)
+library(shiny)
+library(shinydashboard)
+```
+
+```{r}
+suicide <- readr::read_csv("data/master.csv")
+```
+
+
+```{r}
+glimpse(suicide)
+```
+
+```{r}
+names(suicide) <- str_replace_all(names(suicide), c(" " = "_", "/" = "_", "-" = "_"))
+```
+
+```{r}
+suicide <-
+suicide %>% 
+  dplyr::rename(
+    suicide_number = suicides_no,
+    suicide_per_100kpop = suicides_100k_pop)
+```
+
+
+```{r}
+suicide$country <- as.factor(suicide$country)
+suicide$age <- as.factor(suicide$age)
+suicide$sex <- as.factor(suicide$sex)
+suicide$country_year <- as.factor(suicide$country_year)
+suicide$generation <- as.factor(suicide$generation)
+suicide$year <- as.factor(suicide$year)
+```
+
+```{r}
+glimpse(suicide)
+```
+
+```{r}
+suicide <-
+  suicide %>% 
+  mutate_all(~str_replace_all(., "5-14 years", "05-14 years"))
+```
+
+```{r}
+glimpse(suicide)
+```
+
+suicide %>% 
+  group_by(generation) %>% 
+  summarize(num_suicide = sum(suicide_number))
+  
+suicide %>% 
+  group_by(generation) %>% 
+  summarize(num_suicide = sum(suicide_number)) %>% 
+  ggplot(aes(x = generation, y = num_suicide)) +
+  geom_bar (stat = "identity") +
+  labs(title = "Generation vs. Suicide Number",
+       y = "suicide number")
