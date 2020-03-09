@@ -1,6 +1,6 @@
 ---
 title: "Project: Suicide in Global Scale"
-author: "Lily Chen"
+author: "Lily Chen and Vincent Castillo"
 date: "2/28/2020"
 output: ioslides_presentation
 runtime: shiny
