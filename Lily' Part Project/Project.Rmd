@@ -3,7 +3,6 @@ title: "Project: Suicide in Global Scale"
 author: "Lily Chen and Vincent Castillo"
 date: "2/28/2020"
 output: ioslides_presentation
-runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -56,7 +55,7 @@ glimpse(suicide)
 naniar::miss_var_summary(suicide)
 ```
 
-## Clean Dara
+## Clean Data
 ```{r echo=TRUE, message=FALSE}
 names(suicide) <- str_replace_all(names(suicide), c(" " = "_", "/" = "_", "-" = "_"))
 ```
@@ -180,7 +179,7 @@ suicide %>%
 suicide %>% 
   group_by(age) %>% 
   summarize(num_suicide = sum(suicide_number)) %>% 
-  ggplot(aes(x = age, y = num_suicide)) +
+  ggplot(aes(x = age, y = num_suicide, fill = age)) +
   geom_bar (stat = "identity") +
   scale_x_discrete(limits=c("5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"))
   labs(title = "Age vs. Suicide Number",
@@ -192,7 +191,7 @@ suicide %>%
 suicide %>% 
   group_by(age) %>% 
   summarize(population = sum(population)) %>% 
-  ggplot(aes(x = age, y = population)) +
+  ggplot(aes(x = age, y = population, fill = age)) +
   geom_bar (stat = "identity") +
   scale_x_discrete(limits=c("5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"))
   labs(title = "Age vs. Population",
@@ -204,7 +203,7 @@ suicide %>%
 suicide %>% 
   group_by(age) %>% 
   summarize(num_suicide = sum(suicide_number), population = sum(population), suicide_per_100kpop = sum(suicide_per_100kpop), suicide_rate = (num_suicide)/(population)) %>% 
-  ggplot(aes(x = age, y = suicide_rate)) +
+  ggplot(aes(x = age, y = suicide_rate, fill = age)) +
   geom_bar (stat = "identity") +
   scale_x_discrete(limits=c("5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"))
   labs(title = "Age vs. Suicide Rate",
@@ -270,8 +269,8 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-## Shiny App 2
-```{r}
+##Shiny App 2
+```{r include=FALSE}
 ui <- 
   dashboardPage(
   dashboardHeader(title = "Suicide-Generation App"),
