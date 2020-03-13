@@ -25,6 +25,10 @@ knitr::opts_chunk$set(echo = FALSE)
 
 -WHO Suicide Statistics
 
+-Quality of Data, only 80 countries have registrations that are directly used to estimate suicide rates
+
+-"deaths of undetermined intent", "accidents", "homicides", "unknown cause"
+
 
 ## Reference
 -United Nations Development Program. (2018). Human development index (HDI). Retrieved from http://hdr.undp.org/en/indicators/137506
