@@ -25,6 +25,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 -WHO Suicide Statistics
 
+
 ## Reference
 -United Nations Development Program. (2018). Human development index (HDI). Retrieved from http://hdr.undp.org/en/indicators/137506
 
@@ -46,20 +47,24 @@ library(shiny)
 library(shinydashboard)
 ```
 
+
 ## Load Data
 ```{r echo=TRUE, message=FALSE}
 suicide <- readr::read_csv("data/master.csv")
 ```
+
 
 ## Data Overview
 ```{r echo=TRUE}
 glimpse(suicide)
 ```
 
+
 ## NAs Overview
 ```{r echo=FALSE}
 naniar::miss_var_summary(suicide)
 ```
+
 
 ## Clean Data
 ```{r echo=TRUE, message=FALSE}
@@ -83,10 +88,12 @@ suicide$generation <- as.factor(suicide$generation)
 suicide$year <- as.factor(suicide$year)
 ```
 
+
 ## Data Overview
 ```{r echo=TRUE}
 glimpse(suicide)
 ```
+
 
 ## Group by Year: Suicide Number and Suicide Rate 
 ```{r echo=FALSE, message=FALSE}
@@ -94,6 +101,7 @@ suicide %>%
   group_by(year) %>% 
   summarize(suicide_number = sum(suicide_number), population = sum(population), suicide_per_100kpop = sum(suicide_per_100kpop), suicide_rate = (suicide_number)/(population))
 ```
+
 
 ## Group by Year: Suicide Number
 ```{r echo=FALSE, message=FALSE}
@@ -107,6 +115,7 @@ suicide %>%
        y = "suicide number")
 ```
 
+
 ## Group by Year: Population
 ```{r echo=FALSE, message=FALSE}
 suicide %>% 
@@ -118,6 +127,7 @@ suicide %>%
   labs(title = "Year vs. Population",
        y = "population")
 ```
+
 
 ## Group by Year: Suicide Rate
 ```{r echo=FALSE, message=FALSE}
@@ -131,12 +141,14 @@ suicide %>%
        y = "suicide rater")
 ```
 
+
 ## Group by Sex: Suicide Number and Suicide Rate
 ```{r echo=FALSE, message=FALSE}
 suicide %>% 
   group_by(sex) %>% 
   summarize(num_suicide = sum(suicide_number), population = sum(population), suicide_per_100kpop = sum(suicide_per_100kpop), suicide_rate = (num_suicide)/(population))
 ```
+
 
 ## Group by Sex: Suicide Number
 ```{r echo=FALSE, message=FALSE}
@@ -149,6 +161,7 @@ suicide %>%
        y = "suicide number")
 ```
 
+
 ## Group by Sex: Population
 ```{r echo=FALSE, message=FALSE}
 suicide %>% 
@@ -159,6 +172,7 @@ suicide %>%
   labs(title = "Sex vs. Population",
        y = "population")
 ```
+
 
 ## Group by Sex: Suicide Rate
 ```{r echo=FALSE, message=FALSE}
@@ -180,6 +194,7 @@ suicide %>%
   summarize(num_suicide = sum(suicide_number), population = sum(population), suicide_per_100kpop = sum(suicide_per_100kpop), suicide_rate = (num_suicide)/(population))
 ```
 
+
 ## Group by Age: Suicide Number
 ```{r echo=FALSE, message=FALSE}
 suicide %>% 
@@ -191,6 +206,7 @@ suicide %>%
   labs(title = "Age vs. Suicide Number",
        y = "suicide number")
 ```
+
 
 ## Group by Age: Population
 ```{r echo=FALSE, message=FALSE}
@@ -204,6 +220,7 @@ suicide %>%
        y = "population")
 ```
 
+
 ## Group by Age: Suicide Rate
 ```{r echo=FALSE, message=FALSE}
 suicide %>% 
@@ -216,12 +233,14 @@ suicide %>%
        y = "suicide rate")
 ```
 
+
 ## Group By Generation
 ```{r}
 suicide %>%
   ggplot(aes(x = generation, y = suicide_number, fill = generation))+
   geom_bar(stat = "identity")
 ```
+
 
 ## Suicide Rate vs. GDP Per Capita
 ```{r echo=FALSE, message=FALSE}
@@ -232,6 +251,7 @@ suicide %>%
        x = "GDP Per Capita",
        y = "Suicide Per 100k Population")
 ```
+
 
 ## Statistical Analysis
 ```{r echo=FALSE, message=FALSE}
@@ -259,7 +279,8 @@ t_test <- t.test(Suicide.Rate~Group, data = comparetest, alternative = "less", c
 print(t_test)
 ```
 
-## Shiny App 1
+
+##Shiny App 1
 ```{r include=FALSE}
 ui <- dashboardPage(
   dashboardHeader(title = "Suicide Per 100k Pop by Age Group"),
@@ -301,7 +322,8 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
-## Shiny App 2
+
+##Shiny App 2
 ```{r include=FALSE}
 ui <- 
   dashboardPage(
@@ -355,3 +377,8 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 ```
 
+
+## Conclusion
+-Correlations: year, sex, age, GDP
+
+-Causation: futher investigation and research
