@@ -253,34 +253,50 @@ suicide %>%
 ```
 
 
-## Statistical Analysis
-```{r echo=FALSE, message=FALSE}
+## Top 10
+```{r echo=FALSE, message=TRUE}
 suicidetop10 <- suicide %>%
   select(country, suicide_number, population) %>%
   filter(country == "United States" | country == "Luxembourg" | country == "Qatar" | country == "Switzerland" | country == "Norway" | country == "San Marino" | country == "Denmark" | country == "United Arab Emirates" | country == "Sweden" | country == "Iceland") %>%
   group_by(country) %>%
   summarise(totsuic = sum(suicide_number), totpop = sum(population)) %>%
   mutate(suiciderate = totsuic/totpop)
+suicidetop10
+```
 
+## Bottom 10
+```{r echo=FALSE, message=TRUE}
 suicidebot10 <- suicide %>%
   select(country, suicide_number, population) %>%
   filter(country == "Guyana" | country == "Ukraine" | country == "Albania" | country == "Philippines" | country == "Azerbaijan" | country == "Uzbekistan" | country == "Sri Lanka" | country == "Kyrgyzstan" | country == "Dominica" | country == "Kiribati") %>%
   group_by(country) %>%
   summarise(totsuic = sum(suicide_number), totpop = sum(population)) %>%
   mutate(suiciderate = totsuic/totpop)
+suicidebot10
+```
 
+## Creating Dataframes
+```{r echo=TRUE, message=FALSE}
 suicideratedf<-data.frame("Group" = c("Lower"), "Suicide Rate" = c(3.160827e-05, 1.481345e-05, 0.000000e+00, 2.064528e-04, 7.146652e-05, 1.136539e-04, 2.002689e-05, 3.048394e-04, 2.487040e-04, 7.154891e-05))
 
 top10 <- data.frame("Group" = "Upper", "Suicide Rate" = c(1.363585e-04, 1.317808e-04, 1.511601e-04, 1.327779e-04, 2.624535e-05, 5.074532e-05, 1.492121e-04, 1.747870e-04, 1.704003e-05, 1.283846e-04))
 
-comparetest <- rbind(suicideratedf, top10)
+```
 
+## Merging the Dataframes
+```{r echo=TRUE, message=TRUE}
+comparetest <- rbind(suicideratedf, top10)
+comparetest
+```
+
+## T Test
+```{r echo=FALSE, message=FALSE}
 t_test <- t.test(Suicide.Rate~Group, data = comparetest, alternative = "less", conf.level = 0.95)
 print(t_test)
 ```
 
 
-##Shiny App 1
+## Shiny App 1
 ```{r include=FALSE}
 ui <- dashboardPage(
   dashboardHeader(title = "Suicide Per 100k Pop by Age Group"),
@@ -323,7 +339,7 @@ shinyApp(ui, server)
 ```
 
 
-##Shiny App 2
+## Shiny App 2
 ```{r include=FALSE}
 ui <- 
   dashboardPage(
