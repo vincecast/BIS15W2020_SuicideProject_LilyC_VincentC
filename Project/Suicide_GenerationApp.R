@@ -7,8 +7,22 @@ library(tidyverse)
 library(shiny)
 library(shinydashboard)
 
+suicide <- readr::read_csv("data/master.csv")
+names(suicide) <- str_replace_all(names(suicide), c(" " = "_", "/" = "_", "-" = "_"))
+suicide <-
+  suicide %>% 
+  dplyr::rename(
+    suicide_number = suicides_no,
+    suicide_per_100kpop = suicides_100k_pop)
+suicide$country <- as.factor(suicide$country)
+suicide$age <- as.factor(suicide$age)
+suicide$sex <- as.factor(suicide$sex)
+suicide$country_year <- as.factor(suicide$country_year)
+suicide$generation <- as.factor(suicide$generation)
+suicide$year <- as.factor(suicide$year)
+
 ui <- 
-  dashboardPage(
+    dashboardPage(
     dashboardHeader(title = "Suicide-Generation App"),
     dashboardSidebar(disable = TRUE),
     dashboardBody(
